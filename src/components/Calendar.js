@@ -46,7 +46,8 @@ class Calendar extends Component {
                         <button onclick={ this.handleTogglePrevMonth }>&lt;</button>
                         { this.createCalendarTitle() }
                         <button className='today'>
-                            {/* select month || day === current month || today ? no show : show */}
+                            {/* TODO
+                            select month || day === current month || today ? no show : show */}
                             오늘
                         </button>
                         <button onclick={ this.handleToggleNextMonth }>&gt;</button>
