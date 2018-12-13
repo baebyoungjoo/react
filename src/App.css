@@ -45,3 +45,25 @@
   letter-spacing: -.9px;
   text-align: center;
 }
+
+.sat {
+  color: #7166c4;
+}
+
+.sun {
+  color: #f2412c;
+}
+
+.calendar_today {
+  color: #00bc07 !important;
+}
+
+table, th, td {
+  border: 1px solid black;  
+}
+table {
+  width: 60%;
+  margin: auto;
+  height: 400px;
+  text-align: center;
+}
