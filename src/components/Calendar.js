@@ -21,6 +21,21 @@ class Calendar extends Component {
         return this.state.currentYear + '.' + (this.state.currentMonth + 1) + '.'
     }
 
+    checkIsToday = () => {
+        /* TODO */
+        if (this.state.currentMonth <= 0 
+            && ( new Date(this.state.currentYear - 1, 11, 1).getMonth() === new Date().getMonth() )
+            ) {
+                this.setState({isToday: false})
+        } else if (this.state.currentMonth === 11
+            && ( new Date(this.state.currentYear + 1, 0, 1).getMonth() === new Date().getMonth() ) 
+            ) {
+                this.setState({isToday: false})
+        } else {
+            this.setState({isToday: true})
+        }
+    }
+
     /* create calendar table header/body */
     createCalendarTableHeader = () => {
         const week = [ '일', '월', '화', '수', '목', '금', '토' ]
@@ -95,7 +110,7 @@ class Calendar extends Component {
         // TODO
         // getMonth() < 0 ? year - 1, 11, 1 : year, getMonth() - 1, 1
 
-        if (this.state.currentMonth < 0) {
+        if (this.state.currentMonth <= 0) {
             this.setState({
                 currentYear: new Date(this.state.currentYear - 1, 11, 1).getFullYear(),
                 currentMonth: new Date(this.state.currentYear - 1, 11, 1).getMonth()
@@ -107,11 +122,7 @@ class Calendar extends Component {
             })
         }
 
-        this.setState(
-            (state) => ({
-                isToday: true
-            })
-        )
+        this.checkIsToday()
     }
 
     handleToggleNextMonth = () => {
@@ -130,9 +141,8 @@ class Calendar extends Component {
             })
         }
 
-        this.setState({
-            isToday: true
-        })
+        this.checkIsToday()
+     
     }
     /* end */
 
