@@ -45,5 +45,4 @@ You can learn more in the [Create React App documentation](https://facebook.gith
 To learn React, check out the [React documentation](https://reactjs.org/).
 =======
 # react
-practice react
->>>>>>> 3037c43a0e1a73fa73bd3eb058004465097748c9
+this project is react example.
