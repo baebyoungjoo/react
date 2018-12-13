@@ -55,12 +55,18 @@
 }
 
 .calendar_today {
-  color: #00bc07 !important;
+  color: #00bc07;
+}
+
+.calendar_select {
+  background-color: #3c9cfc;
+  color: white;
 }
 
 table, th, td {
   border: 1px solid black;  
 }
+
 table {
   width: 60%;
   margin: auto;
