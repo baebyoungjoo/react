@@ -1,4 +1,5 @@
 import React from 'react'
+import Axios from '../Axios'
 
 class Td extends React.Component {
 
@@ -15,10 +16,12 @@ class Td extends React.Component {
         let month = new Date(this.props.thisDate).getMonth() + 1;
         let date  = new Date(this.props.thisDate).getDate();
 
-        date = date > 9 ? date : '0' + date;
-        
+        date  = date > 9 ? date : '0' + date;
+        month = month > 9 ? month : '0' + month;
+
         let fullDate = year + '' + month + '' + date
-        console.log(fullDate)
+        
+        Axios(year, month)
         return fullDate
     }
 
@@ -33,10 +36,6 @@ class Td extends React.Component {
      
         this.props.thisDate === this.getToday() 
             ? lastClassName = lastClassName + 'calendar_today' 
-            : lastClassName = lastClassName + '';
-
-        this.isHoliday() === true
-            ? lastClassName = lastClassName + 'holiday'
             : lastClassName = lastClassName + '';
             
         if (this.state.isActive) lastClassName = lastClassName + ' calendar_select';
