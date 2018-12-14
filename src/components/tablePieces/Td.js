@@ -10,22 +10,40 @@ class Td extends React.Component {
         return new Date().getFullYear() + '.' + (new Date().getMonth() + 1) + '.' + new Date().getDate() + '.'
     }
 
+    isHoliday = () => {
+        let year  = new Date(this.props.thisDate).getFullYear();
+        let month = new Date(this.props.thisDate).getMonth() + 1;
+        let date  = new Date(this.props.thisDate).getDate();
+
+        date = date > 9 ? date : '0' + date;
+        
+        let fullDate = year + '' + month + '' + date
+        console.log(fullDate)
+        return fullDate
+    }
+
     checkClassName = () => {
+        // console.log( new Date(this.props.thisDate).getMonth(), new Date(this.props.thisDate).getDate() );
+
         let lastClassName = '';
         
         this.props.className !== undefined
             ? lastClassName = lastClassName + this.props.className 
-            : lastClassName = ''
+            : lastClassName = '';
      
         this.props.thisDate === this.getToday() 
             ? lastClassName = lastClassName + 'calendar_today' 
             : lastClassName = lastClassName + '';
 
+        this.isHoliday() === true
+            ? lastClassName = lastClassName + 'holiday'
+            : lastClassName = lastClassName + '';
+            
         if (this.state.isActive) lastClassName = lastClassName + ' calendar_select';
 
-        return lastClassName
+            return lastClassName
     }
-
+    
     handleOnClick = () => {
         const currentState = this.state.isActive;
         this.setState({
