@@ -22,18 +22,11 @@ class Calendar extends Component {
     }
 
     checkIsToday = () => {
-        /* TODO */
-        if (this.state.currentMonth <= 0 
-            && ( new Date(this.state.currentYear - 1, 11, 1).getMonth() === new Date().getMonth() )
-            ) {
-                this.setState({isToday: false})
-        } else if (this.state.currentMonth === 11
-            && ( new Date(this.state.currentYear + 1, 0, 1).getMonth() === new Date().getMonth() ) 
-            ) {
-                this.setState({isToday: false})
-        } else {
-            this.setState({isToday: true})
-        }
+        this.setState((state) => {
+            state.currentMonth === new Date().getMonth() && state.currentYear === new Date().getFullYear()
+                ? state.isToday = false
+                : state.isToday = true
+        })
     }
 
     /* create calendar table header/body */
@@ -142,7 +135,6 @@ class Calendar extends Component {
         }
 
         this.checkIsToday()
-     
     }
     /* end */
 
