@@ -35,7 +35,7 @@ class Td extends React.Component {
             : lastClassName = '';
      
         this.props.thisDate === this.getToday() 
-            ? lastClassName = lastClassName + 'calendar_today' 
+            ? lastClassName = lastClassName + ' calendar_today' 
             : lastClassName = lastClassName + '';
             
         if (this.state.isActive) lastClassName = lastClassName + ' calendar_select';
@@ -51,6 +51,7 @@ class Td extends React.Component {
     }
 
     render() {
+        this.isHoliday()
         const { thisDate, innerIdx, value } = this.props
         const { isActive } = this.state
         return (

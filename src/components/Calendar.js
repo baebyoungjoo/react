@@ -3,7 +3,7 @@ import Thead from './tablePieces/THeader'
 import Tbody from './tablePieces/TBody'
 
 import Button from './Button'
-import Axios from './Axios'
+
 class Calendar extends Component {
 
     state = {
@@ -67,7 +67,6 @@ class Calendar extends Component {
     }
 
     render() {
-        Axios()
         const { isToday } = this.state;
         const titleYearMonth = this.createCalendarTitle();
         const firstDay  = new Date(this.state.currentYear, this.state.currentMonth, 1).getDay();

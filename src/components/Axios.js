@@ -21,8 +21,6 @@ const Axios = (solYear, solMonth) => {
         .catch( (response) => {
             console.log(response)
         })
-
-        
     );
 }
 
