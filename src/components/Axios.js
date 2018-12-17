@@ -1,7 +1,8 @@
 import axios from 'axios';
 
-const Axios = (solYear, solMonth) => {
-
+// const Axios = (solYear, solMonth) => {
+export function Axios(solYear, solMonth) {
+    
     const url = 
         'http://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getHoliDeInfo?'
         + 'serviceKey='
@@ -13,15 +14,20 @@ const Axios = (solYear, solMonth) => {
 
     return (
         axios.get(url, {
-            crossdomain: true
+            crossdomain: true,
+            headers: {
+                'Content-Type': 'application/xml'
+            }
         })
         .then( (response) => {
-            console.log(response.data.response.body.items.item)
-        })
-        .catch( (response) => {
             console.log(response)
+            return response.data.response.body.totalCount
         })
-    );
+        .catch( (error) => {
+            console.log(error)
+            return error
+        })
+    )
 }
 
-export default Axios;
+// export default Axios;

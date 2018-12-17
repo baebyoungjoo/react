@@ -1,10 +1,11 @@
 import React from 'react'
-import Axios from '../Axios'
+import { Axios } from '../Axios'
 
 class Td extends React.Component {
-
     state = {
-        isActive: false
+        isActive: false,
+        holidayList: [],
+        totalCount: 0
     }
 
     getToday = () => {
@@ -20,8 +21,10 @@ class Td extends React.Component {
         month = month > 9 ? month : '0' + month;
 
         let fullDate = year + '' + month + '' + date
-        
         Axios(year, month)
+        .then(response => {
+            console.log(response)
+        })
         return fullDate
     }
 
@@ -63,7 +66,7 @@ class Td extends React.Component {
             >
             { value }
             <br/>
-            
+
             { 
                 thisDate === this.getToday() && isActive === true
                     ? <span>select</span>
@@ -73,11 +76,6 @@ class Td extends React.Component {
                                 ? <span>select</span>
                                 : null
             }
-            {/* TODO
-                1. 날짜 선택하면 입력창 수정 가능하게
-                2. 연속 날짜 선택 시 범위 표시
-                3. 날짜 선택 후, 월 변경해도 선택한건 남아있게..
-            */}
             </td>
         )
     }
