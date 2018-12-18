@@ -1,4 +1,9 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+
+/* Button component 
+    prop: buttonValue is required
+*/
 
 class Button extends Component {
 
@@ -14,6 +19,12 @@ class Button extends Component {
             </React.Fragment>
         )
     }
+}
+
+Button.propTypes = {
+    buttonValue: PropTypes.string.isRequired,
+    className: PropTypes.string,
+    onClick: PropTypes.func
 }
 
 Button.defaultProps = {

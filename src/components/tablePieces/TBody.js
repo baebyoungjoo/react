@@ -4,7 +4,13 @@ import Td from './Td'
 class TBody extends Component {
 
     makeThisDay = (dayCount) => {
-        let thisDay = this.props.currentYear + '.' + (this.props.currentMonth + 1) + '.' + dayCount + '.';
+        
+        let month = this.props.currentMonth + 1 
+
+        dayCount  = dayCount > 9 ? dayCount : '0' + dayCount;
+        month = month > 9 ? month : '0' + month;
+
+        let thisDay = this.props.currentYear + '.' + month + '.' + dayCount + '.';
 
         return thisDay
     }

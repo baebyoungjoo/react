@@ -4,7 +4,8 @@ import { Axios } from '../Axios'
 class Td extends React.Component {
     state = {
         isActive: false,
-        holidayList: [],
+        isHoliday: false,
+        holidayList: {},
         totalCount: 0
     }
 
@@ -21,16 +22,26 @@ class Td extends React.Component {
         month = month > 9 ? month : '0' + month;
 
         let fullDate = year + '' + month + '' + date
-        Axios(year, month)
-        .then(response => {
-            console.log(response)
-        })
-        return fullDate
+        
+        return { fullDate, year, month }
+    }
+
+    componentDidMount() {
+        const holiday = this.isHoliday()
+
+        Axios(holiday.year, holiday.month)
+            .then(response => {
+                this.setState({
+                    holidayList: response.items.item,
+                    totalCount : response.totalCount
+                }
+            )
+            }).catch(error => {
+                console.log(error)
+            })
     }
 
     checkClassName = () => {
-        // console.log( new Date(this.props.thisDate).getMonth(), new Date(this.props.thisDate).getDate() );
-
         let lastClassName = '';
         
         this.props.className !== undefined
@@ -42,8 +53,8 @@ class Td extends React.Component {
             : lastClassName = lastClassName + '';
             
         if (this.state.isActive) lastClassName = lastClassName + ' calendar_select';
-
-            return lastClassName
+        
+        return lastClassName
     }
     
     handleOnClick = () => {
@@ -53,10 +64,15 @@ class Td extends React.Component {
         })
     }
 
+    replace = () => {
+        let sx = this.props.thisDate.replace(/\./gi,'')
+        return sx
+    }
+
     render() {
-        this.isHoliday()
         const { thisDate, innerIdx, value } = this.props
         const { isActive } = this.state
+        
         return (
             <td 
                 className={ this.checkClassName() }
@@ -67,14 +83,14 @@ class Td extends React.Component {
             { value }
             <br/>
 
-            { 
+            {
                 thisDate === this.getToday() && isActive === true
                     ? <span>select</span>
-                    : thisDate === this.getToday() && isActive !== true 
+                    : thisDate === this.getToday() && isActive !== true
                         ? <span>오늘</span>
-                            : isActive === true
-                                ? <span>select</span>
-                                : null
+                        : isActive === true
+                            ? <span>select</span>
+                            : null
             }
             </td>
         )
