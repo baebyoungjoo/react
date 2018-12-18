@@ -1,25 +1,39 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import Td from './Td'
+import { padZero } from '../../helpers/padZero'
+
+/* create TBody component
+    prop: firstDay, lastDate, currentYear, currentMonth
+
+    firstDay = First(start) day of the month. 
+    lastDate = last day of the month
+*/
 
 class TBody extends Component {
-
+    
+    /* output 2018.01.01 */
     makeThisDay = (dayCount) => {
-        
-        let month = this.props.currentMonth + 1 
+        const { currentYear, currentMonth } = this.props
 
-        dayCount  = dayCount > 9 ? dayCount : '0' + dayCount;
-        month = month > 9 ? month : '0' + month;
+        let month = currentMonth + 1
 
-        let thisDay = this.props.currentYear + '.' + month + '.' + dayCount + '.';
+        month = padZero(month)
+        dayCount  = padZero(dayCount)
+
+        let thisDay = currentYear + '.' + month + '.' + dayCount + '.'
 
         return thisDay
     }
 
+    /* output 0(sun)-6(sat) */
     getWeekend = (dayCount) => {
         let weekend = new Date(this.props.currentYear, this.props.currentMonth, dayCount).getDay();
+        
         return weekend
     }
     
+    /* output <tbody><tr><td></td></tr></tbody> */
     createCalendarTableBody = (firstDay, lastDate) => {
         
         const oneWeek = 7;
@@ -84,6 +98,13 @@ class TBody extends Component {
             </React.Fragment>
         )
     }
+}
+
+TBody.propTypes = {
+    currentYear: PropTypes.number,
+    currentMonth: PropTypes.number,
+    firstDay: PropTypes.number,
+    lastDate: PropTypes.number
 }
 
 export default TBody;
