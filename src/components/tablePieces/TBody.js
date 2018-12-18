@@ -49,19 +49,19 @@ class TBody extends Component {
         let tableBodyTr = [];
         let dayCount = 1;
 
-        for (let idx = 0; idx < totalWeek; idx++) {
+        for (let tableRowIdx = 0; tableRowIdx < totalWeek; tableRowIdx++) {
             let tableBodyTd = []
 
-            for (let innerIdx = 0; innerIdx < oneWeek; innerIdx++) {
-                if (idx === 0 && innerIdx < firstDay) {
-                    tableBodyTd.push(<td key={ innerIdx }></td>)
+            for (let tableDataIdx = 0; tableDataIdx < oneWeek; tableDataIdx++) {
+                if (tableRowIdx === 0 && tableDataIdx < firstDay) {
+                    tableBodyTd.push(<td key={ tableDataIdx }></td>)
                     continue
                 }
 
                 if (dayCount <= lastDate && this.getWeekend(dayCount) === 6) {
                     tableBodyTd.push(
                         <Td className={'sat'} thisDate={ this.makeThisDay(dayCount) } 
-                            key={ innerIdx } value = { dayCount++ }/>
+                            key={ tableDataIdx } value = { dayCount++ }/>
                     )
                     continue
                 }
@@ -69,7 +69,7 @@ class TBody extends Component {
                 if (dayCount <= lastDate && this.getWeekend(dayCount) === 0) {
                     tableBodyTd.push(
                         <Td className={ 'sun' } thisDate={ this.makeThisDay(dayCount) } 
-                            key={ innerIdx } value = { dayCount++ }/>
+                            key={ tableDataIdx } value = { dayCount++ }/>
                     )
                     continue
                 }
@@ -77,14 +77,14 @@ class TBody extends Component {
                 if (dayCount <= lastDate) {
                     tableBodyTd.push(
                         <Td thisDate={ this.makeThisDay(dayCount) } 
-                            key={ innerIdx } value = { dayCount++ }/>
+                            key={ tableDataIdx } value = { dayCount++ }/>
                     )
                     continue
                 } 
                 
-                tableBodyTd.push(<td key={ innerIdx }></td>)
+                tableBodyTd.push(<td key={ tableDataIdx }></td>)
             }
-            tableBodyTr.push(<tr key= { idx }>{ tableBodyTd }</tr>)
+            tableBodyTr.push(<tr key= { tableRowIdx }>{ tableBodyTd }</tr>)
         }
         tableBody.push(<tbody key={ dayCount } className='calendar_table_body'>{ tableBodyTr }</tbody>)
         return tableBody;
