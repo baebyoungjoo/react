@@ -1,5 +1,7 @@
 import React from 'react'
 import { Axios } from '../Axios'
+import PropTypes from 'prop-types'
+import { padZero } from '../../helpers/padZero'
 
 class Td extends React.Component {
     state = {
@@ -18,8 +20,8 @@ class Td extends React.Component {
         let month = new Date(this.props.thisDate).getMonth() + 1;
         let date  = new Date(this.props.thisDate).getDate();
 
-        date  = date > 9 ? date : '0' + date;
-        month = month > 9 ? month : '0' + month;
+        month = padZero(month)
+        date  = padZero(date)
 
         let fullDate = year + '' + month + '' + date
         
@@ -70,14 +72,13 @@ class Td extends React.Component {
     }
 
     render() {
-        const { thisDate, innerIdx, value } = this.props
+        const { thisDate, tableDataIdx, value } = this.props
         const { isActive } = this.state
-        
         return (
             <td 
                 className={ this.checkClassName() }
                 data-date={ thisDate }
-                key={ innerIdx }
+                key={ tableDataIdx }
                 onClick={ this.handleOnClick }
             >
             { value }
@@ -95,6 +96,11 @@ class Td extends React.Component {
             </td>
         )
     }
+}
+
+Td.propTypes = {
+    thisDate: PropTypes.string,
+    value: PropTypes.number
 }
 
 export default Td;
