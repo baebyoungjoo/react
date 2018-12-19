@@ -114,7 +114,7 @@ class TBody extends Component {
         })
     }
 
-    componentWillReceiveProps(nextProps, nextState) {
+    componentWillReceiveProps(nextProps) {
         Axios(nextProps.currentYear, padZero(nextProps.currentMonth+1))
         .then( (response) => 
             this.setState({
@@ -122,10 +122,11 @@ class TBody extends Component {
                 holidayTotalCountOfMonth: response.totalCount
             }
             // , () => {console.log('shouldComponentUpdate =>', this.state.holidayList)}
-            )
+            )            
         ).catch( (error) => {
             console.log('error', error)
         })
+        // this.forceUpdate()
         return true
     }
 
