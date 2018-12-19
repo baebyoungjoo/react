@@ -16,10 +16,10 @@ class TBody extends Component {
     
     state = {
         holidayList: {},
-        holidayTotalCountMonth: 0
+        holidayTotalCountOfMonth: 0
     }
     /* output 2018.01.01 */
-    makeThisDay = (dayCount) => {
+    makeThisDate = (dayCount) => {
         const { currentYear, currentMonth } = this.props
 
         let month = currentMonth + 1
@@ -27,9 +27,9 @@ class TBody extends Component {
         month = padZero(month)
         dayCount  = padZero(dayCount)
 
-        let thisDay = currentYear + '.' + month + '.' + dayCount + '.'
+        let thisDate = currentYear + '.' + month + '.' + dayCount + '.'
 
-        return thisDay
+        return thisDate
     }
 
     /* output 0(sun)-6(sat) */
@@ -66,7 +66,7 @@ class TBody extends Component {
 
                 if (dayCount <= lastDate && this.getWeekend(dayCount) === 6) {
                     tableBodyTd.push(
-                        <Td className={ 'sat' } thisDate={ this.makeThisDay(dayCount) } 
+                        <Td className={ 'sat' } thisDate={ this.makeThisDate(dayCount) } 
                         isHoliday={ this.holidayCheck(dayCount) }
                             key={ tableDataIdx } value = { dayCount++ }/>
                     )
@@ -75,7 +75,7 @@ class TBody extends Component {
 
                 if (dayCount <= lastDate && this.getWeekend(dayCount) === 0) {
                     tableBodyTd.push(
-                        <Td className={ 'sun' } thisDate={ this.makeThisDay(dayCount) } 
+                        <Td className={ 'sun' } thisDate={ this.makeThisDate(dayCount) } 
                         isHoliday={ this.holidayCheck(dayCount) }
                             key={ tableDataIdx } value = { dayCount++ }/>
                     )
@@ -84,7 +84,7 @@ class TBody extends Component {
 
                 if (dayCount <= lastDate) {
                     tableBodyTd.push(
-                        <Td thisDate={ this.makeThisDay(dayCount) } 
+                        <Td thisDate={ this.makeThisDate(dayCount) } 
                         isHoliday={ this.holidayCheck(dayCount) }
                             key={ tableDataIdx } value = { dayCount++ }/>
                     )
@@ -126,14 +126,14 @@ class TBody extends Component {
     }
 
     holidayCheck = (dayCount) => {
-        const { holidayList, holidayTotalCountMonth } = this.state
+        const { holidayList, holidayTotalCountOfMonth } = this.state
         let success = false
-        let parseThisDay = Number.parseInt(replaceDotToSpace(this.makeThisDay(dayCount)))
+        let parseThisDay = Number.parseInt(replaceDotToSpace(this.makeThisDate(dayCount)))
         
-        if ( holidayTotalCountMonth === 1) {
+        if ( holidayTotalCountOfMonth === 1) {
             return parseThisDay === holidayList.locdate ? true : false
-        } else if (holidayTotalCountMonth > 1) {
-            for (let idx = 0; idx < holidayTotalCountMonth; idx++) {
+        } else if (holidayTotalCountOfMonth > 1) {
+            for (let idx = 0; idx < holidayTotalCountOfMonth; idx++) {
                 if (parseThisDay === holidayList[idx].locdate) {
                     success = true
                 }
