@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Td from './Td'
 import { padZero } from '../../helpers/padZero'
+import { replaceDotToSpace } from '../../helpers/replaceDotToSpace'
+import { Axios } from '../../helpers/Axios'
 
 /* create TBody component
     prop: firstDay, lastDate, currentYear, currentMonth
@@ -12,6 +14,10 @@ import { padZero } from '../../helpers/padZero'
 
 class TBody extends Component {
     
+    state = {
+        holidayList: {},
+        holidayTotalCountMonth: 0
+    }
     /* output 2018.01.01 */
     makeThisDay = (dayCount) => {
         const { currentYear, currentMonth } = this.props
@@ -42,7 +48,7 @@ class TBody extends Component {
         let totalWeek = 0;
 
         (remain % oneWeek === 0) 
-            ? totalWeek = remainWeek + 1 
+            ? totalWeek = remainWeek + 1
             : totalWeek = remainWeek + 2;
         
         let tableBody = [];
@@ -60,7 +66,8 @@ class TBody extends Component {
 
                 if (dayCount <= lastDate && this.getWeekend(dayCount) === 6) {
                     tableBodyTd.push(
-                        <Td className={'sat'} thisDate={ this.makeThisDay(dayCount) } 
+                        <Td className={ 'sat' } thisDate={ this.makeThisDay(dayCount) } 
+                        isHoliday={ this.holidayCheck(dayCount) }
                             key={ tableDataIdx } value = { dayCount++ }/>
                     )
                     continue
@@ -69,6 +76,7 @@ class TBody extends Component {
                 if (dayCount <= lastDate && this.getWeekend(dayCount) === 0) {
                     tableBodyTd.push(
                         <Td className={ 'sun' } thisDate={ this.makeThisDay(dayCount) } 
+                        isHoliday={ this.holidayCheck(dayCount) }
                             key={ tableDataIdx } value = { dayCount++ }/>
                     )
                     continue
@@ -77,6 +85,7 @@ class TBody extends Component {
                 if (dayCount <= lastDate) {
                     tableBodyTd.push(
                         <Td thisDate={ this.makeThisDay(dayCount) } 
+                        isHoliday={ this.holidayCheck(dayCount) }
                             key={ tableDataIdx } value = { dayCount++ }/>
                     )
                     continue
@@ -88,6 +97,49 @@ class TBody extends Component {
         }
         tableBody.push(<tbody key={ dayCount } className='calendar_table_body'>{ tableBodyTr }</tbody>)
         return tableBody;
+    }
+
+    // componentDidMount() {
+    componentWillMount() {
+        Axios(this.props.currentYear, padZero(this.props.currentMonth+1))
+        .then( (response) => 
+            this.setState({
+                holidayList: response.items.item,
+                holidayTotalCountMonth: response.totalCount
+            }, () => {console.log('componentDidMount =>', this.state.holidayList)})
+        ).catch( (error) => {
+            console.log('error', error)
+        })
+    }
+
+    componentWillReceiveProps(nextProps, nextState) {
+        Axios(nextProps.currentYear, padZero(nextProps.currentMonth+1))
+        .then( (response) => 
+            this.setState({
+                holidayList: response.items.item,
+                holidayTotalCountMonth: response.totalCount
+            }, () => {console.log('shouldComponentUpdate =>', this.state.holidayList)})
+        ).catch( (error) => {
+            console.log('error', error)
+        })
+        return true
+    }
+
+    holidayCheck = (dayCount) => {
+        const { holidayList, holidayTotalCountMonth } = this.state
+        let success = false
+        let parseThisDay = Number.parseInt(replaceDotToSpace(this.makeThisDay(dayCount)))
+        
+        if ( holidayTotalCountMonth === 1) {
+            return parseThisDay === holidayList.locdate ? true : false
+        } else if (holidayTotalCountMonth > 1) {
+            for (let idx = 0; idx < holidayTotalCountMonth; idx++) {
+                if (parseThisDay === holidayList[idx].locdate) {
+                    success = true
+                }
+            }
+            return success
+        }
     }
 
     render () {

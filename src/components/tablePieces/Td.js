@@ -1,14 +1,10 @@
 import React from 'react'
-import { Axios } from '../Axios'
 import PropTypes from 'prop-types'
 import { padZero } from '../../helpers/padZero'
 
 class Td extends React.Component {
     state = {
-        isActive: false,
-        isHoliday: false,
-        holidayList: {},
-        totalCount: 0
+        isActive: false
     }
 
     getToday = () => {
@@ -28,63 +24,44 @@ class Td extends React.Component {
         return { fullDate, year, month }
     }
 
-    componentDidMount() {
-        const holiday = this.isHoliday()
-
-        Axios(holiday.year, holiday.month)
-            .then(response => {
-                this.setState({
-                    holidayList: response.items.item,
-                    totalCount : response.totalCount
-                }
-            )
-            }).catch(error => {
-                console.log(error)
-            })
-    }
-
     checkClassName = () => {
-        let lastClassName = '';
+        let lastClassName = ''
         
         this.props.className !== undefined
             ? lastClassName = lastClassName + this.props.className 
-            : lastClassName = '';
+            : lastClassName = ''
      
         this.props.thisDate === this.getToday() 
             ? lastClassName = lastClassName + ' calendar_today' 
-            : lastClassName = lastClassName + '';
-            
-        if (this.state.isActive) lastClassName = lastClassName + ' calendar_select';
+            : lastClassName = lastClassName + ''
+        
+        if (this.props.isHoliday) lastClassName = lastClassName + ' holiday'
+        if (this.state.isActive) lastClassName = lastClassName + ' calendar_select'
         
         return lastClassName
     }
     
     handleOnClick = () => {
-        const currentState = this.state.isActive;
+        const currentState = this.state.isActive
         this.setState({
             isActive: !currentState
         })
     }
 
-    replace = () => {
-        let sx = this.props.thisDate.replace(/\./gi,'')
-        return sx
-    }
-
     render() {
-        const { thisDate, tableDataIdx, value } = this.props
-        const { isActive } = this.state
+        const { thisDate, tableDataIdx, value, isHoliday } = this.props
         return (
             <td 
                 className={ this.checkClassName() }
                 data-date={ thisDate }
                 key={ tableDataIdx }
                 onClick={ this.handleOnClick }
+                data-holiday={ isHoliday }
             >
             { value }
             <br/>
 
-            {
+            {/* {
                 thisDate === this.getToday() && isActive === true
                     ? <span>select</span>
                     : thisDate === this.getToday() && isActive !== true
@@ -92,7 +69,7 @@ class Td extends React.Component {
                         : isActive === true
                             ? <span>select</span>
                             : null
-            }
+            } */}
             </td>
         )
     }
@@ -100,7 +77,8 @@ class Td extends React.Component {
 
 Td.propTypes = {
     thisDate: PropTypes.string,
-    value: PropTypes.number
+    value: PropTypes.number,
+    isHoliday: PropTypes.bool
 }
 
 export default Td;
