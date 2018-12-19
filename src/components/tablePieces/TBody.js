@@ -66,8 +66,8 @@ class TBody extends Component {
 
                 if (dayCount <= lastDate && this.getWeekend(dayCount) === 6) {
                     tableBodyTd.push(
-                        <Td className={ 'sat' } thisDate={ this.makeThisDate(dayCount) } 
-                        isHoliday={ this.holidayCheck(dayCount) }
+                        <Td className={ 'sat' } thisDate={ this.makeThisDate(dayCount) }
+                            isHoliday={ this.holidayCheck(dayCount) }
                             key={ tableDataIdx } value = { dayCount++ }/>
                     )
                     continue
@@ -76,7 +76,7 @@ class TBody extends Component {
                 if (dayCount <= lastDate && this.getWeekend(dayCount) === 0) {
                     tableBodyTd.push(
                         <Td className={ 'sun' } thisDate={ this.makeThisDate(dayCount) } 
-                        isHoliday={ this.holidayCheck(dayCount) }
+                            isHoliday={ this.holidayCheck(dayCount) }
                             key={ tableDataIdx } value = { dayCount++ }/>
                     )
                     continue
@@ -85,7 +85,7 @@ class TBody extends Component {
                 if (dayCount <= lastDate) {
                     tableBodyTd.push(
                         <Td thisDate={ this.makeThisDate(dayCount) } 
-                        isHoliday={ this.holidayCheck(dayCount) }
+                            isHoliday={ this.holidayCheck(dayCount) }
                             key={ tableDataIdx } value = { dayCount++ }/>
                     )
                     continue
@@ -105,8 +105,10 @@ class TBody extends Component {
         .then( (response) => 
             this.setState({
                 holidayList: response.items.item,
-                holidayTotalCountMonth: response.totalCount
-            }, () => {console.log('componentDidMount =>', this.state.holidayList)})
+                holidayTotalCountOfMonth: response.totalCount
+            }
+            // , () => {console.log('componentDidMount =>', this.state.holidayList)}
+            )
         ).catch( (error) => {
             console.log('error', error)
         })
@@ -117,8 +119,10 @@ class TBody extends Component {
         .then( (response) => 
             this.setState({
                 holidayList: response.items.item,
-                holidayTotalCountMonth: response.totalCount
-            }, () => {console.log('shouldComponentUpdate =>', this.state.holidayList)})
+                holidayTotalCountOfMonth: response.totalCount
+            }
+            // , () => {console.log('shouldComponentUpdate =>', this.state.holidayList)}
+            )
         ).catch( (error) => {
             console.log('error', error)
         })
@@ -130,7 +134,7 @@ class TBody extends Component {
         let success = false
         let parseThisDay = Number.parseInt(replaceDotToSpace(this.makeThisDate(dayCount)))
         
-        if ( holidayTotalCountOfMonth === 1) {
+        if (holidayTotalCountOfMonth === 1) {
             return parseThisDay === holidayList.locdate ? true : false
         } else if (holidayTotalCountOfMonth > 1) {
             for (let idx = 0; idx < holidayTotalCountOfMonth; idx++) {
