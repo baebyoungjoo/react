@@ -99,34 +99,33 @@ class TBody extends Component {
         return tableBody;
     }
 
-    // componentDidMount() {
-    componentWillMount() {
+    componentDidMount() {
+    // componentWillMount() {
         Axios(this.props.currentYear, padZero(this.props.currentMonth+1))
-        .then( (response) => 
+        .then( (response) =>
             this.setState({
-                holidayList: response.items.item,
-                holidayTotalCountOfMonth: response.totalCount
+                holidayList: response.data.response.body.items.item,
+                holidayTotalCountOfMonth: response.data.response.body.totalCount
             }
             // , () => {console.log('componentDidMount =>', this.state.holidayList)}
             )
         ).catch( (error) => {
-            console.log('error', error)
+            throw error
         })
     }
 
     componentWillReceiveProps(nextProps) {
         Axios(nextProps.currentYear, padZero(nextProps.currentMonth+1))
-        .then( (response) => 
+        .then( (response) => {
             this.setState({
-                holidayList: response.items.item,
-                holidayTotalCountOfMonth: response.totalCount
+                holidayList: response.data.response.body.items.item,
+                holidayTotalCountOfMonth: response.data.response.body.totalCount
             }
             // , () => {console.log('shouldComponentUpdate =>', this.state.holidayList)}
-            )            
+            )}
         ).catch( (error) => {
-            console.log('error', error)
+            throw error
         })
-        // this.forceUpdate()
         return true
     }
 

@@ -74,7 +74,6 @@ class Calendar extends Component {
         
         return (
             <div className='calendar_area'>
-            
                 <div className='calendar_header'>
                     <strong className='calendar_title'>
                         <Button 

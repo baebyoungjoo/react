@@ -51,26 +51,27 @@ class Td extends React.Component {
     render() {
         const { thisDate, tableDataIdx, value, isHoliday } = this.props
         return (
-            <td 
-                className={ this.checkClassName() }
-                data-date={ thisDate }
-                key={ tableDataIdx }
-                onClick={ this.handleOnClick }
-                data-holiday={ isHoliday }
-            >
-            { value }
-            <br/>
-
-            {/* {
-                thisDate === this.getToday() && isActive === true
-                    ? <span>select</span>
-                    : thisDate === this.getToday() && isActive !== true
-                        ? <span>오늘</span>
-                        : isActive === true
-                            ? <span>select</span>
-                            : null
-            } */}
-            </td>
+            <React.Fragment>
+                <td 
+                    className={ this.checkClassName() }
+                    data-date={ thisDate }
+                    key={ tableDataIdx }
+                    onClick={ this.handleOnClick }
+                    data-holiday={ isHoliday }
+                >
+                { value }
+                {
+                    thisDate === this.getToday() && this.state.isActive === true
+                        ? <span>select</span>
+                        : thisDate === this.getToday() && this.state.isActive !== true
+                            ? <span>오늘</span>
+                            : this.state.isActive === true
+                                ? <span>select</span>
+                                : null
+                }
+                </td>
+               
+            </React.Fragment>
         )
     }
 }

@@ -5,7 +5,7 @@ const tableHeader = (
     <thead className='calendar_table_header'><tr>
         { week.map((column, idx) => {
             return (
-                <th key={ idx }>{ column }</th>
+                <th key={ idx } className={ idx === 0 || idx === 6 ? 'weekend' : '' }>{ column }</th>
             )
         }) }
     </tr></thead>
