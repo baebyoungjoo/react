@@ -99,9 +99,15 @@ class TBody extends Component {
         return tableBody;
     }
 
-    componentDidMount() {
+    shouldComponentUpdate(state, nextProps, nextState) {
+        console.log(nextProps, nextState, state)
+        if (nextState !== undefined) return true
+        else return false
+    }
+    
+    async componentDidMount() {
     // componentWillMount() {
-        Axios(this.props.currentYear, padZero(this.props.currentMonth+1))
+        await Axios(this.props.currentYear, padZero(this.props.currentMonth+1))
         .then( (response) =>
             this.setState({
                 holidayList: response.data.response.body.items.item,
